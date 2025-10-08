@@ -172,7 +172,7 @@
 
                 <!-- Projects Section -->
                 <section id="projects" class="py-20">
-                    <h2 class="text-4xl font-bold text-center mb-12">Projects!</h2>
+                    <h2 class="text-4xl font-bold text-center mb-12">Projects! -- More coming soon...</h2>
                     <div id="projects-wrapper" class="relative">
                         <!-- Left Scroll Button -->
                         <button id="projects-scroll-left" class="scroller-btn left-[-1rem]">
@@ -252,7 +252,7 @@
                             <div class="experience-card flex-none w-10/12 md:w-2/5 bg-[#3a8c82]/80 backdrop-blur-sm rounded-lg p-6 snap-center">
                                 <h3 class="text-2xl font-bold">3D Pets</h3>
                                 <p class="text-[#e08a98] font-semibold">Engineering Intern (Part-time)</p>
-                                <p class="text-gray-400 mb-4">September 2021 - May 2022</p>
+                                <p class="text-gray-400 mb-4">October 2023 - April 2024</p>
                                 <ul class="list-disc list-inside text-gray-300 space-y-2">
                                     <li>Machined custom prosthetics, boosting production by 10%</li>
                                     <li>Created 3D prosthetic models from LiDAR-scanned body molds</li>
@@ -284,22 +284,26 @@
                 <section id="project-detail-1" class="project-detail-page hidden py-8">
                     <button class="back-to-projects-btn text-[#e08a98] font-semibold hover:underline mb-8">&larr; Back to Projects</button>
                     <h2 class="text-5xl font-bold mb-4">Cuff-Link</h2>
-                    <img src="CuffLinkPhotoShoot.png" alt="Cuff-Link" class="w-full rounded-lg shadow-lg mb-8">
+                    <img src="CuffLinkPhotoShoot.png" alt="Cuff-Link" class="w-1/2 rounded-lg shadow-lg mb-8">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div class="md:col-span-2">
-                            <h3 class="text-3xl font-bold mb-4">Project Overview</h3>
+                            <h3 class="text-3xl font-bold mb-4">What is it?</h3>
                             <p class="text-lg text-gray-300 leading-relaxed">
-                                This project involved the complete design, fabrication, and programming of an autonomous rover for simulated search and rescue missions. The primary objective was to create a robust platform capable of navigating complex, unknown environments using sensor fusion and pathfinding algorithms. The rover successfully demonstrated its ability to map its surroundings, identify target objects using computer vision, and transmit data back to a base station in real-time.
+                                The Cuff-Link is a device I thought up when I realized that there's no one size fits all mouse for people with disabilities. 
+                                It works via an IMU and EMG strapped to the wrist of the user using the band. The IMU's yaw, pitch, and roll is used to control
+                                the movement of a onscreen cursor, and the EMG reads muscle contractions and sends a click command after it exceeds a certain threshold.
+                                All of this data is fed to the computer via BLE, where a python script running on the computer controls the mouse. (We also added an
+                                optional finger controller for more precision).
                             </p>
                         </div>
                         <div>
                             <h3 class="text-3xl font-bold mb-4">Key Technologies</h3>
                             <ul class="list-disc list-inside text-lg text-gray-300 space-y-2">
-                                <li>Raspberry Pi 4</li>
-                                <li>Python (OpenCV, NumPy)</li>
-                                <li>LiDAR Sensor</li>
-                                <li>ROS (Robot Operating System)</li>
-                                <li>3D-Printed Chassis (Fusion 360)</li>
+                                <li>ESP32 (using Arduino IDE)</li>
+                                <li>Python</li>
+                                <li>Circuit Design</li>
+                                <li>Sensor Processing(EMG, IMU)</li>
+                                <li>Fusion360 (CAD) + 3D Printing</li>
                             </ul>
                         </div>
                     </div>
@@ -308,8 +312,27 @@
                 <!-- Project 2 Detail Page (Template) -->
                 <section id="project-detail-2" class="project-detail-page hidden py-8">
                     <button class="back-to-projects-btn text-[#e08a98] font-semibold hover:underline mb-8">&larr; Back to Projects</button>
-                    <h2 class="text-5xl font-bold mb-4">Robotic Arm Actuator</h2>
-                     <p class="text-lg text-gray-300">Details for the Robotic Arm Actuator project go here.</p>
+                    <h2 class="text-5xl font-bold mb-4">USB-C Microphone</h2>
+                    <img src="Microphone.JPG" alt="Microphone" class="w-1/2 rounded-lg shadow-lg mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="md:col-span-2">
+                            <p class="text-lg text-gray-300 leading-relaxed">
+                                This is something I've wanted to build for a while because for the longest time I wanted to buy a good sounding microphone. Unfortunately, these do not come cheap, so I figured why not build it? 
+                                This project had two main steps to it, building the pre-amp + USB-C conversion circuit, and building the encapsulation for the microphone capsule itself.
+                                 I decided to go with the JLI-2555, a cheap capsule running around $12, but very high quality for the price (used in microphones $500+!). Working with a friend, we developed a CAD model for the microphone itself, then built the pre-amp
+                                 using a PCB designed in KiCAD, and soldered it all up with some good old fashioned elbow grease.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-4">Key Technologies</h3>
+                            <ul class="list-disc list-inside text-lg text-gray-300 space-y-2">
+                                <li>KiCAD</li>
+                                <li>Fusion360</li>
+                                <li>Circuit Design</li>
+                                <li>Soldering</li>
+                                <li>3D Printing</li>
+                            </ul>
+                        </div>
                 </section>
 
                 <!-- Project 3 Detail Page (Template) -->
