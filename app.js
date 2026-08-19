@@ -32,9 +32,9 @@ const FALLBACK_SHELVES = [
 const FALLBACK_TIMELINE = [
   {
     Company: "Arm",
-    Role: "",
+    Role: "Physical Implementation Intern",
     Dates: "Summer '26",
-    Highlights: "",
+    Highlights: "Developed backtracing CLI tool for detecting integrated clock gates in any technology mapped netlist | Created large RTL hierarchy processing flow to translate hierarchies into easily traversable directed acyclic graphs | Verified block-level physical designs and debugged bottlenecks utilizing Cadence Innovus and Synopsys Verdi",
   },
   {
     Company: "Gen Auto",
@@ -43,7 +43,7 @@ const FALLBACK_TIMELINE = [
     Highlights: "Developed LiDAR/Camera/IMU stack using NVIDIA Jetson Orin | Built and implemented ROS2 nodes using Python and Linux | Installed demo prototype for investor pitches",
   },
   {
-    Company: "University of Illinois Urbana Champaign",
+    Company: "UIUC CEME Laboratory",
     Role: "Undergraduate Research Assistant",
     Dates: "August 2025 — Present",
     Highlights: "Developed Python algorithms to map simulated magnetic fields to prototype MRI data | Designed Hall sensor mounts and pre-amp assemblies in Fusion360 | Researched transceiver designs to improve signal clarity in low-field MRI",
