@@ -1,0 +1,19 @@
+- Company: "Arm"
+  Role: ""
+  Dates: "Summer '26"
+  Highlights: ""
+
+- Company: "Gen Auto"
+  Role: "Autonomy Engineer"
+  Dates: "June 2025 — Present"
+  Highlights: "Developed LiDAR/Camera/IMU stack using NVIDIA Jetson Orin | Built and implemented ROS2 nodes using Python and Linux | Installed demo prototype for investor pitches"
+
+- Company: "University of Illinois Urbana Champaign"
+  Role: "Undergraduate Research Assistant"
+  Dates: "August 2025 — Present"
+  Highlights: "Developed Python algorithms to map simulated magnetic fields to prototype MRI data | Designed Hall sensor mounts and pre-amp assemblies in Fusion360 | Researched transceiver designs to improve signal clarity in low-field MRI"
+
+- Company: "3D Pets"
+  Role: "Engineering Intern (Part-time)"
+  Dates: "October 2023 — April 2024"
+  Highlights: "Machined custom prosthetics, boosting production by 10% | Created 3D prosthetic models from LiDAR-scanned body molds | Established parts organization system to improve workshop workflow"
