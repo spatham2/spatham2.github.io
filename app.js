@@ -188,8 +188,10 @@ function projectCard(project, index) {
   card.dataset.index = index;
   card.innerHTML = `
     <a class="project-tape__link" href="project.html?project=${slug}" aria-label="Open ${title}">
+      <span class="project-tape__aura" aria-hidden="true"></span>
       <img class="project-tape__media" src="${project.Cover}" alt="${title}" draggable="false">
       ${movie ? `<video class="project-tape__media" src="${movie}" muted loop playsinline preload="metadata"></video>` : ""}
+      <span class="project-tape__sheen" aria-hidden="true"></span>
       <span class="project-tape__tooltip">${title}</span>
       <span class="project-tape__label">
         <span class="project-tape__title">${title}</span>
@@ -225,44 +227,123 @@ function projectShelfGroup(shelf, shelfIndex) {
 function focusProject(cards, focus) {
   cards.forEach((card, index) => {
     const delta = index - focus;
-    const distance = Math.min(Math.abs(delta), 1);
+    const rawDistance = Math.abs(delta);
+    const distance = Math.min(rawDistance, 1);
     card.style.setProperty("--distance", distance.toFixed(3));
     card.style.setProperty("--side", Math.sign(delta) || 0);
-    card.style.zIndex = String(1000 - Math.round(distance * 100) + cards.length - index);
-    card.classList.toggle("is-active", distance < 0.42);
+    card.style.zIndex = String(1000 - rawDistance);
+    card.classList.toggle("is-active", index === focus);
   });
 }
 
-function resetProjects(cards) {
-  const midpoint = (cards.length - 1) / 2;
+function resetProjects(cards, anchor = 0) {
   cards.forEach((card, index) => {
+    const delta = index - anchor;
     card.style.setProperty("--distance", "1");
-    card.style.setProperty("--side", Math.sign(index - midpoint) || 0);
-    card.style.zIndex = String(cards.length - index);
+    card.style.setProperty("--side", Math.sign(delta) || 0);
+    card.style.zIndex = String(1000 - Math.abs(delta));
     card.classList.remove("is-active");
   });
 }
 
+const MAX_TILT_DEG = 8;
+const MIN_EXPOSED_STEP_PX = 36;
+const MAX_MARGIN_RIGHT_PX = -94;
+
+function updateShelfSpacing(shelf, cards) {
+  if (cards.length < 2) {
+    shelf.style.removeProperty("--tape-overlap");
+    return;
+  }
+
+  const style = window.getComputedStyle(shelf);
+  const availableWidth =
+    shelf.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+  const cardWidth = cards[0].offsetWidth;
+  if (!availableWidth || !cardWidth) return;
+
+  const fitStep = (availableWidth - cardWidth) / (cards.length - 1);
+  const step = Math.max(MIN_EXPOSED_STEP_PX, fitStep);
+  const overlap = Math.min(MAX_MARGIN_RIGHT_PX, step - cardWidth);
+  shelf.style.setProperty("--tape-overlap", `${overlap.toFixed(2)}px`);
+}
+
+function resetCardTilt(card) {
+  const link = card.querySelector(".project-tape__link");
+  card.classList.remove("is-hovered");
+  if (!link) return;
+  link.style.setProperty("--tilt-x", "0deg");
+  link.style.setProperty("--tilt-y", "0deg");
+  link.style.setProperty("--glow-x", "50%");
+  link.style.setProperty("--glow-y", "50%");
+}
+
+function updateCardTilt(card, event) {
+  if (event.pointerType === "touch") return;
+  const link = card.querySelector(".project-tape__link");
+  if (!link) return;
+  const rect = card.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  const px = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+  const py = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+  const tiltX = ((0.5 - py) * 2 * MAX_TILT_DEG).toFixed(2);
+  const tiltY = ((px - 0.5) * 2 * MAX_TILT_DEG).toFixed(2);
+
+  card.classList.add("is-hovered");
+  link.style.setProperty("--tilt-x", `${tiltX}deg`);
+  link.style.setProperty("--tilt-y", `${tiltY}deg`);
+  link.style.setProperty("--glow-x", `${(px * 100).toFixed(1)}%`);
+  link.style.setProperty("--glow-y", `${(py * 100).toFixed(1)}%`);
+}
+
 function enableShelfInteraction(shelf, cards) {
   if (!cards.length) return;
-  resetProjects(cards);
+  let activeIndex = -1;
+  let lastFocusedIndex = 0;
 
-  const updateFromPointer = (event) => {
-    const rect = shelf.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const firstCenter = cards[0].offsetLeft + cards[0].offsetWidth / 2;
-    const lastCard = cards[cards.length - 1];
-    const lastCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
-    const span = Math.max(lastCenter - firstCenter, 1);
-    const focus = Math.max(0, Math.min(cards.length - 1, ((x - firstCenter) / span) * (cards.length - 1)));
-    focusProject(cards, focus);
+  const activate = (index) => {
+    if (activeIndex === index) return;
+    if (activeIndex >= 0 && cards[activeIndex]) {
+      resetCardTilt(cards[activeIndex]);
+    }
+    activeIndex = index;
+    lastFocusedIndex = index;
+    focusProject(cards, index);
   };
 
-  shelf.addEventListener("pointermove", updateFromPointer);
-  shelf.addEventListener("pointerleave", () => resetProjects(cards));
+  const reset = () => {
+    activeIndex = -1;
+    resetProjects(cards, lastFocusedIndex);
+    cards.forEach(resetCardTilt);
+  };
+
+  reset();
+  updateShelfSpacing(shelf, cards);
+
+  if (typeof ResizeObserver === "function") {
+    const observer = new ResizeObserver(() => updateShelfSpacing(shelf, cards));
+    observer.observe(shelf);
+  } else {
+    window.addEventListener("resize", () => updateShelfSpacing(shelf, cards));
+  }
+
+  shelf.addEventListener("pointerleave", reset);
+  shelf.addEventListener("focusout", (event) => {
+    if (!shelf.contains(event.relatedTarget)) reset();
+  });
+
   cards.forEach((card, index) => {
-    card.addEventListener("focusin", () => focusProject(cards, index));
-    card.addEventListener("mouseenter", () => focusProject(cards, index));
+    card.addEventListener("focusin", () => activate(index));
+    card.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "touch") return;
+      activate(index);
+    });
+    card.addEventListener("pointermove", (event) => {
+      if (event.pointerType === "touch") return;
+      activate(index);
+      updateCardTilt(card, event);
+    });
+    card.addEventListener("pointerleave", () => resetCardTilt(card));
   });
 }
 
