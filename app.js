@@ -12,7 +12,7 @@ const FALLBACK_SHELVES = [
       {
         Project: "Cuff-Link",
         Slug: "cuff-link",
-        Cover: "CuffLinkPhotoShoot.png",
+        Cover: "images/CuffLinkPhotoShoot.png",
         Description: "An accessibility device allowing anyone to control a cursor on screen using an IMU and EMG data to click.",
         Movie: "",
         "Page Specifications": "project-pages/cuff-link.md",
@@ -20,7 +20,7 @@ const FALLBACK_SHELVES = [
       {
         Project: "High Quality Microphone",
         Slug: "usb-c-microphone",
-        Cover: "Microphone.JPG",
+        Cover: "images/Microphone.JPG",
         Description: "A USB-C plug and play microphone with a handmade pre-amp circuit — outclassing $500 mics for a small fraction of the price.",
         Movie: "",
         "Page Specifications": "project-pages/usb-c-microphone.md",
